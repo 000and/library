@@ -60,6 +60,7 @@ function Library:CreateWindow(title)
     MinimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     MinimizeButton.TextSize = 12
 
+    -- Controla a visibilidade do conteúdo
     local contentVisible = true
     MinimizeButton.MouseButton1Click:Connect(function()
         contentVisible = not contentVisible
