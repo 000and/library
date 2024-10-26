@@ -75,14 +75,13 @@ function Library:CreateWindow(title)
             end
         else
             -- Animação para minimizar
-            MainFrame:TweenSize(UDim2.new(0, 200, 0, 30), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true, function()
-                -- Após a animação, esconder os itens
-                for _, item in ipairs(MainFrame:GetChildren()) do
-                    if item:IsA("GuiObject") and item ~= TitleFrame then
-                        item.Visible = false
-                    end
+            MainFrame:TweenSize(UDim2.new(0, 200, 0, 30), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true)
+            wait(0.3)  -- Espera a animação terminar
+            for _, item in ipairs(MainFrame:GetChildren()) do
+                if item:IsA("GuiObject") and item ~= TitleFrame then
+                    item.Visible = false
                 end
-            end)
+            end
         end
     end)
 
