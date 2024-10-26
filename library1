@@ -8,6 +8,7 @@ function Library:CreateWindow(title)
     local CloseButton = Instance.new("TextButton")
     local MinimizeButton = Instance.new("TextButton")
     local UIListLayout = Instance.new("UIListLayout")
+    local MinimizeIndicator = Instance.new("TextLabel")
 
     ScreenGui.Parent = game.CoreGui
 
@@ -60,6 +61,17 @@ function Library:CreateWindow(title)
     MinimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     MinimizeButton.TextSize = 12
 
+    -- Indicador de Minimização (seta)
+    MinimizeIndicator.Name = "MinimizeIndicator"
+    MinimizeIndicator.Parent = TitleFrame
+    MinimizeIndicator.Size = UDim2.new(0, 20, 0, 20)
+    MinimizeIndicator.Position = UDim2.new(1, -90, 0.5, -10)
+    MinimizeIndicator.BackgroundTransparency = 1
+    MinimizeIndicator.TextColor3 = Color3.fromRGB(255, 255, 255)
+    MinimizeIndicator.Font = Enum.Font.GothamBold
+    MinimizeIndicator.TextSize = 12
+    MinimizeIndicator.Text = "▼"  -- Seta apontando para baixo
+
     -- Controla a visibilidade do conteúdo com animação
     local contentVisible = true
     MinimizeButton.MouseButton1Click:Connect(function()
@@ -68,6 +80,7 @@ function Library:CreateWindow(title)
         if contentVisible then
             -- Animação para restaurar o tamanho completo
             MainFrame:TweenSize(UDim2.new(0, 200, 0, 250), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true)
+            MinimizeIndicator.Text = "▼"  -- Seta para baixo quando visível
             for _, item in ipairs(MainFrame:GetChildren()) do
                 if item:IsA("GuiObject") and item ~= TitleFrame then
                     item.Visible = true
@@ -76,6 +89,7 @@ function Library:CreateWindow(title)
         else
             -- Animação para minimizar
             MainFrame:TweenSize(UDim2.new(0, 200, 0, 30), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true)
+            MinimizeIndicator.Text = "▲"  -- Seta para cima quando minimizado
             wait(0.3)  -- Espera a animação terminar
             for _, item in ipairs(MainFrame:GetChildren()) do
                 if item:IsA("GuiObject") and item ~= TitleFrame then
