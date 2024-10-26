@@ -1,114 +1,109 @@
 local Library = {}
 
--- Função para criar uma nova Janela
 function Library:CreateWindow(title)
     local ScreenGui = Instance.new("ScreenGui")
     local MainFrame = Instance.new("Frame")
     local Title = Instance.new("TextLabel")
-    local Container = Instance.new("Frame")
     local UIListLayout = Instance.new("UIListLayout")
 
-    -- Propriedades da GUI
-    ScreenGui.Parent = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
-    ScreenGui.ResetOnSpawn = false
+    ScreenGui.Parent = game.CoreGui
 
     MainFrame.Name = "MainFrame"
     MainFrame.Parent = ScreenGui
-    MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-    MainFrame.Position = UDim2.new(0.3, 0, 0.2, 0)
-    MainFrame.Size = UDim2.new(0, 400, 0, 300)
-    MainFrame.ClipsDescendants = true
-    MainFrame.Active = true
+    MainFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    MainFrame.Size = UDim2.new(0, 250, 0, 300)
+    MainFrame.Position = UDim2.new(0.5, -125, 0.5, -150)
     MainFrame.Draggable = true
+    MainFrame.Active = true
+    MainFrame.Selectable = true
 
     Title.Name = "Title"
     Title.Parent = MainFrame
-    Title.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    Title.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     Title.Size = UDim2.new(1, 0, 0, 30)
     Title.Font = Enum.Font.SourceSansBold
     Title.Text = title
     Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-    Title.TextSize = 20
+    Title.TextSize = 18
 
-    Container.Name = "Container"
-    Container.Parent = MainFrame
-    Container.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-    Container.BackgroundTransparency = 1
-    Container.Size = UDim2.new(1, 0, 1, -30)
-    Container.Position = UDim2.new(0, 0, 0, 30)
-
-    UIListLayout.Parent = Container
+    UIListLayout.Parent = MainFrame
     UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    UIListLayout.Padding = UDim.new(0, 5)
 
-    local Window = {ScreenGui = ScreenGui, Container = Container}
-    setmetatable(Window, {__index = Library})
+    local Window = {}
+
+    function Window:CreateSection(sectionTitle)
+        local Section = Instance.new("Frame")
+        local SectionTitle = Instance.new("TextLabel")
+        local SectionLayout = Instance.new("UIListLayout")
+
+        Section.Name = "Section"
+        Section.Parent = MainFrame
+        Section.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+        Section.Size = UDim2.new(1, -10, 0, 60)
+        Section.Position = UDim2.new(0, 5, 0, 5)
+        Section.BorderSizePixel = 0
+
+        SectionTitle.Name = "SectionTitle"
+        SectionTitle.Parent = Section
+        SectionTitle.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+        SectionTitle.Size = UDim2.new(1, 0, 0, 25)
+        SectionTitle.Font = Enum.Font.SourceSansBold
+        SectionTitle.Text = sectionTitle
+        SectionTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+        SectionTitle.TextSize = 14
+
+        SectionLayout.Parent = Section
+        SectionLayout.SortOrder = Enum.SortOrder.LayoutOrder
+        SectionLayout.Padding = UDim.new(0, 5)
+
+        local SectionFunctions = {}
+
+        function SectionFunctions:CreateButton(text, callback)
+            local Button = Instance.new("TextButton")
+
+            Button.Name = "Button"
+            Button.Parent = Section
+            Button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+            Button.Size = UDim2.new(1, -10, 0, 25)
+            Button.Font = Enum.Font.SourceSans
+            Button.Text = text
+            Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+            Button.TextSize = 14
+            Button.MouseButton1Click:Connect(callback)
+
+            return Button
+        end
+
+        function SectionFunctions:CreateToggle(text, callback)
+            local ToggleFrame = Instance.new("Frame")
+            local ToggleButton = Instance.new("TextButton")
+            local isActive = false
+
+            ToggleFrame.Parent = Section
+            ToggleFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+            ToggleFrame.Size = UDim2.new(1, -10, 0, 25)
+
+            ToggleButton.Parent = ToggleFrame
+            ToggleButton.Size = UDim2.new(1, 0, 1, 0)
+            ToggleButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+            ToggleButton.Text = text
+            ToggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+            ToggleButton.TextSize = 14
+
+            ToggleButton.MouseButton1Click:Connect(function()
+                isActive = not isActive
+                callback(isActive)
+                ToggleButton.BackgroundColor3 = isActive and Color3.fromRGB(0, 170, 0) or Color3.fromRGB(50, 50, 50)
+            end)
+
+            return ToggleButton
+        end
+
+        return SectionFunctions
+    end
+
     return Window
-end
-
--- Função para criar uma nova Seção
-function Library:CreateSection(name)
-    local SectionFrame = Instance.new("Frame")
-    local SectionTitle = Instance.new("TextLabel")
-    local UIListLayout = Instance.new("UIListLayout")
-
-    SectionFrame.Name = "SectionFrame"
-    SectionFrame.Parent = self.Container
-    SectionFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-    SectionFrame.Size = UDim2.new(1, -10, 0, 50)
-    SectionFrame.ClipsDescendants = true
-
-    SectionTitle.Name = "SectionTitle"
-    SectionTitle.Parent = SectionFrame
-    SectionTitle.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-    SectionTitle.Size = UDim2.new(1, 0, 0, 30)
-    SectionTitle.Font = Enum.Font.SourceSansBold
-    SectionTitle.Text = name
-    SectionTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
-    SectionTitle.TextSize = 18
-
-    UIListLayout.Parent = SectionFrame
-    UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-
-    local Section = {Container = SectionFrame}
-    setmetatable(Section, {__index = Library})
-    return Section
-end
-
--- Função para criar um novo botão
-function Library:CreateButton(text, callback)
-    local Button = Instance.new("TextButton")
-
-    Button.Name = "Button"
-    Button.Parent = self.Container
-    Button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-    Button.Size = UDim2.new(1, -10, 0, 30)
-    Button.Font = Enum.Font.SourceSansBold
-    Button.Text = text
-    Button.TextColor3 = Color3.fromRGB(255, 255, 255)
-    Button.TextSize = 16
-
-    Button.MouseButton1Click:Connect(callback)
-end
-
--- Função para criar um novo toggle
-function Library:CreateToggle(text, callback)
-    local Toggle = Instance.new("TextButton")
-    local enabled = false
-
-    Toggle.Name = "Toggle"
-    Toggle.Parent = self.Container
-    Toggle.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-    Toggle.Size = UDim2.new(1, -10, 0, 30)
-    Toggle.Font = Enum.Font.SourceSansBold
-    Toggle.Text = text
-    Toggle.TextColor3 = Color3.fromRGB(255, 255, 255)
-    Toggle.TextSize = 16
-
-    Toggle.MouseButton1Click:Connect(function()
-        enabled = not enabled
-        Toggle.BackgroundColor3 = enabled and Color3.fromRGB(70, 130, 180) or Color3.fromRGB(50, 50, 50)
-        callback(enabled)
-    end)
 end
 
 return Library
