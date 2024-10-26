@@ -5,6 +5,8 @@ function Library:CreateWindow(title)
     local MainFrame = Instance.new("Frame")
     local TitleFrame = Instance.new("Frame")
     local Title = Instance.new("TextLabel")
+    local CloseButton = Instance.new("TextButton")
+    local MinimizeButton = Instance.new("TextButton")
     local UIListLayout = Instance.new("UIListLayout")
 
     ScreenGui.Parent = game.CoreGui
@@ -25,13 +27,49 @@ function Library:CreateWindow(title)
     Title.Name = "Title"
     Title.Parent = TitleFrame
     Title.BackgroundTransparency = 1
-    Title.Size = UDim2.new(1, -10, 1, 0)
+    Title.Size = UDim2.new(1, -60, 1, 0)
     Title.Position = UDim2.new(0, 5, 0, 0)
     Title.Font = Enum.Font.GothamBold
     Title.Text = title
     Title.TextColor3 = Color3.fromRGB(255, 255, 255)
     Title.TextSize = 14
     Title.TextXAlignment = Enum.TextXAlignment.Left
+
+    -- Botão de Fechar
+    CloseButton.Name = "CloseButton"
+    CloseButton.Parent = TitleFrame
+    CloseButton.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    CloseButton.Size = UDim2.new(0, 20, 0, 20)
+    CloseButton.Position = UDim2.new(1, -30, 0.5, -10)
+    CloseButton.Text = "X"
+    CloseButton.Font = Enum.Font.GothamBold
+    CloseButton.TextColor3 = Color3.fromRGB(255, 0, 0)
+    CloseButton.TextSize = 12
+    CloseButton.MouseButton1Click:Connect(function()
+        ScreenGui:Destroy()
+    end)
+
+    -- Botão de Minimizar
+    MinimizeButton.Name = "MinimizeButton"
+    MinimizeButton.Parent = TitleFrame
+    MinimizeButton.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    MinimizeButton.Size = UDim2.new(0, 20, 0, 20)
+    MinimizeButton.Position = UDim2.new(1, -60, 0.5, -10)
+    MinimizeButton.Text = "-"
+    MinimizeButton.Font = Enum.Font.GothamBold
+    MinimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    MinimizeButton.TextSize = 12
+
+    local contentVisible = true
+    MinimizeButton.MouseButton1Click:Connect(function()
+        contentVisible = not contentVisible
+        for _, item in ipairs(MainFrame:GetChildren()) do
+            if item:IsA("GuiObject") and item ~= TitleFrame then
+                item.Visible = contentVisible
+            end
+        end
+        MainFrame.Size = contentVisible and UDim2.new(0, 200, 0, 250) or UDim2.new(0, 200, 0, 30)
+    end)
 
     UIListLayout.Parent = MainFrame
     UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
