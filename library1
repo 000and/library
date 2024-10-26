@@ -68,6 +68,11 @@ function Library:CreateWindow(title)
         if contentVisible then
             -- Animação para restaurar o tamanho completo
             MainFrame:TweenSize(UDim2.new(0, 200, 0, 250), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true)
+            for _, item in ipairs(MainFrame:GetChildren()) do
+                if item:IsA("GuiObject") and item ~= TitleFrame then
+                    item.Visible = true
+                end
+            end
         else
             -- Animação para minimizar
             MainFrame:TweenSize(UDim2.new(0, 200, 0, 30), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true, function()
