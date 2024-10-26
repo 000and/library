@@ -12,7 +12,7 @@ function Library:CreateWindow(title)
     MainFrame.Name = "MainFrame"
     MainFrame.Parent = ScreenGui
     MainFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-    MainFrame.Size = UDim2.new(0, 200, 0, 300)
+    MainFrame.Size = UDim2.new(0, 200, 0, 250)
     MainFrame.Position = UDim2.new(0.5, -100, 0.5, -150)
     MainFrame.Draggable = true
     MainFrame.Active = true
@@ -47,7 +47,7 @@ function Library:CreateWindow(title)
         Section.Name = "Section"
         Section.Parent = MainFrame
         Section.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-        Section.Size = UDim2.new(1, -10, 0, 60)
+        Section.Size = UDim2.new(1, -10, 0, 30)
         Section.Position = UDim2.new(0, 5, 0, 5)
         Section.BorderSizePixel = 0
 
