@@ -5,28 +5,27 @@ function Library:CreateWindow(title)
     local MainFrame = Instance.new("Frame")
     local TitleFrame = Instance.new("Frame")
     local Title = Instance.new("TextLabel")
-    local CloseButton = Instance.new("TextButton")
-    local MinimizeButton = Instance.new("TextButton")
+    local UIListLayout = Instance.new("UIListLayout")
 
     ScreenGui.Parent = game.CoreGui
 
     MainFrame.Name = "MainFrame"
     MainFrame.Parent = ScreenGui
     MainFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-    MainFrame.Size = UDim2.new(0, 200, 0, 250)
+    MainFrame.Size = UDim2.new(0, 200, 0, 300)
     MainFrame.Position = UDim2.new(0.5, -100, 0.5, -150)
     MainFrame.Draggable = true
     MainFrame.Active = true
 
     TitleFrame.Name = "TitleFrame"
     TitleFrame.Parent = MainFrame
-    TitleFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+    TitleFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     TitleFrame.Size = UDim2.new(1, 0, 0, 30)
 
     Title.Name = "Title"
     Title.Parent = TitleFrame
     Title.BackgroundTransparency = 1
-    Title.Size = UDim2.new(1, -40, 1, 0)
+    Title.Size = UDim2.new(1, -10, 1, 0)
     Title.Position = UDim2.new(0, 5, 0, 0)
     Title.Font = Enum.Font.GothamBold
     Title.Text = title
@@ -34,85 +33,37 @@ function Library:CreateWindow(title)
     Title.TextSize = 14
     Title.TextXAlignment = Enum.TextXAlignment.Left
 
-    CloseButton.Name = "CloseButton"
-    CloseButton.Parent = TitleFrame
-    CloseButton.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-    CloseButton.Size = UDim2.new(0, 20, 0, 20)
-    CloseButton.Position = UDim2.new(1, -25, 0.5, -10)
-    CloseButton.Text = "-"
-    CloseButton.Font = Enum.Font.GothamBold
-    CloseButton.TextColor3 = Color3.fromRGB(200, 200, 200)
-    CloseButton.TextSize = 14
-    CloseButton.MouseButton1Click:Connect(function()
-        ScreenGui:Destroy()
-    end)
-
-    local contentVisible = true
-    MinimizeButton.Name = "MinimizeButton"
-    MinimizeButton.Parent = TitleFrame
-    MinimizeButton.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-    MinimizeButton.Size = UDim2.new(0, 20, 0, 20)
-    MinimizeButton.Position = UDim2.new(1, -50, 0.5, -10)
-    MinimizeButton.Text = "-"
-    MinimizeButton.Font = Enum.Font.GothamBold
-    MinimizeButton.TextColor3 = Color3.fromRGB(200, 200, 200)
-    MinimizeButton.TextSize = 14
-
-    MinimizeButton.MouseButton1Click:Connect(function()
-        contentVisible = not contentVisible
-        for _, item in ipairs(MainFrame:GetChildren()) do
-            if item:IsA("GuiObject") and item ~= TitleFrame then
-                item.Visible = contentVisible
-            end
-        end
-        MainFrame.Size = contentVisible and UDim2.new(0, 200, 0, 250) or UDim2.new(0, 200, 0, 30)
-    end)
+    UIListLayout.Parent = MainFrame
+    UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    UIListLayout.Padding = UDim.new(0, 5)
 
     local Window = {}
 
     function Window:CreateSection(sectionTitle)
         local Section = Instance.new("Frame")
         local SectionTitle = Instance.new("TextLabel")
-        local SectionMinimizeButton = Instance.new("TextButton")
+        local UIListLayout = Instance.new("UIListLayout")
 
         Section.Name = "Section"
         Section.Parent = MainFrame
         Section.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-        Section.Size = UDim2.new(1, -10, 0, 50)
+        Section.Size = UDim2.new(1, -10, 0, 30)
         Section.Position = UDim2.new(0, 5, 0, 5)
         Section.BorderSizePixel = 0
 
         SectionTitle.Name = "SectionTitle"
         SectionTitle.Parent = Section
-        SectionTitle.BackgroundTransparency = 1
-        SectionTitle.Size = UDim2.new(1, -25, 0, 25)
+        SectionTitle.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+        SectionTitle.Size = UDim2.new(1, 0, 1, 0)
         SectionTitle.Font = Enum.Font.GothamBold
         SectionTitle.Text = sectionTitle
         SectionTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
         SectionTitle.TextSize = 14
         SectionTitle.TextXAlignment = Enum.TextXAlignment.Left
 
-        SectionMinimizeButton.Name = "SectionMinimizeButton"
-        SectionMinimizeButton.Parent = Section
-        SectionMinimizeButton.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-        SectionMinimizeButton.Size = UDim2.new(0, 20, 0, 20)
-        SectionMinimizeButton.Position = UDim2.new(1, -20, 0.5, -10)
-        SectionMinimizeButton.Text = "v"
-        SectionMinimizeButton.Font = Enum.Font.GothamBold
-        SectionMinimizeButton.TextColor3 = Color3.fromRGB(200, 200, 200)
-        SectionMinimizeButton.TextSize = 14
-
-        local sectionContentVisible = true
-        SectionMinimizeButton.MouseButton1Click:Connect(function()
-            sectionContentVisible = not sectionContentVisible
-            for _, item in ipairs(Section:GetChildren()) do
-                if item:IsA("GuiObject") and item ~= SectionTitle and item ~= SectionMinimizeButton then
-                    item.Visible = sectionContentVisible
-                end
-            end
-            Section.Size = sectionContentVisible and UDim2.new(1, -10, 0, 50) or UDim2.new(1, -10, 0, 25)
-            SectionMinimizeButton.Text = sectionContentVisible and "v" or "^"
-        end)
+        UIListLayout.Parent = Section
+        UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+        UIListLayout.Padding = UDim.new(0, 5)
 
         local SectionFunctions = {}
 
@@ -133,25 +84,29 @@ function Library:CreateWindow(title)
         end
 
         function SectionFunctions:CreateToggle(text, callback)
-            local Toggle = Instance.new("TextButton")
+            local ToggleFrame = Instance.new("Frame")
+            local ToggleButton = Instance.new("TextButton")
             local isActive = false
 
-            Toggle.Name = "Toggle"
-            Toggle.Parent = Section
-            Toggle.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-            Toggle.Size = UDim2.new(1, -10, 0, 25)
-            Toggle.Font = Enum.Font.GothamBold
-            Toggle.Text = text
-            Toggle.TextColor3 = Color3.fromRGB(100, 100, 100)
-            Toggle.TextSize = 14
+            ToggleFrame.Parent = Section
+            ToggleFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+            ToggleFrame.Size = UDim2.new(1, -10, 0, 25)
 
-            Toggle.MouseButton1Click:Connect(function()
+            ToggleButton.Parent = ToggleFrame
+            ToggleButton.Size = UDim2.new(1, 0, 1, 0)
+            ToggleButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+            ToggleButton.Font = Enum.Font.GothamBold
+            ToggleButton.Text = text
+            ToggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+            ToggleButton.TextSize = 14
+
+            ToggleButton.MouseButton1Click:Connect(function()
                 isActive = not isActive
                 callback(isActive)
-                Toggle.TextColor3 = isActive and Color3.fromRGB(0, 170, 0) or Color3.fromRGB(100, 100, 100)
+                ToggleButton.BackgroundColor3 = isActive and Color3.fromRGB(0, 170, 0) or Color3.fromRGB(50, 50, 50)
             end)
 
-            return Toggle
+            return ToggleButton
         end
 
         return SectionFunctions
