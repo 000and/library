@@ -60,16 +60,25 @@ function Library:CreateWindow(title)
     MinimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     MinimizeButton.TextSize = 12
 
-    -- Controla a visibilidade do conteúdo
+    -- Controla a visibilidade do conteúdo com animação
     local contentVisible = true
     MinimizeButton.MouseButton1Click:Connect(function()
         contentVisible = not contentVisible
-        for _, item in ipairs(MainFrame:GetChildren()) do
-            if item:IsA("GuiObject") and item ~= TitleFrame then
-                item.Visible = contentVisible
-            end
+
+        if contentVisible then
+            -- Animação para restaurar o tamanho completo
+            MainFrame:TweenSize(UDim2.new(0, 200, 0, 250), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true)
+        else
+            -- Animação para minimizar
+            MainFrame:TweenSize(UDim2.new(0, 200, 0, 30), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true, function()
+                -- Após a animação, esconder os itens
+                for _, item in ipairs(MainFrame:GetChildren()) do
+                    if item:IsA("GuiObject") and item ~= TitleFrame then
+                        item.Visible = false
+                    end
+                end
+            end)
         end
-        MainFrame.Size = contentVisible and UDim2.new(0, 200, 0, 250) or UDim2.new(0, 200, 0, 30)
     end)
 
     UIListLayout.Parent = MainFrame
