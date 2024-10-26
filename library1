@@ -56,10 +56,10 @@ function Library:CreateWindow(title)
     MinimizeButton.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     MinimizeButton.Size = UDim2.new(0, 20, 0, 20)
     MinimizeButton.Position = UDim2.new(1, -60, 0.5, -10)
-    MinimizeButton.Text = "-"
     MinimizeButton.Font = Enum.Font.GothamBold
     MinimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     MinimizeButton.TextSize = 12
+    MinimizeButton.Text = "▼"  -- Seta para baixo inicialmente
 
     -- Indicador de Minimização (seta)
     MinimizeIndicator.Name = "MinimizeIndicator"
@@ -92,7 +92,7 @@ function Library:CreateWindow(title)
             MinimizeIndicator.Text = "▲"  -- Seta para cima quando minimizado
             wait(0.3)  -- Espera a animação terminar
             for _, item in ipairs(MainFrame:GetChildren()) do
-                if item:IsA("GuiObject") and item ~= TitleFrame then
+                if item:IsA("GuiObject") and item ~= TitleFrame and item ~= MinimizeButton and item ~= CloseButton then
                     item.Visible = false
                 end
             end
