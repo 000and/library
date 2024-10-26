@@ -47,14 +47,14 @@ function Library:CreateWindow(title)
         Section.Name = "Section"
         Section.Parent = MainFrame
         Section.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-        Section.Size = UDim2.new(1, -10, 0, 30)
+        Section.Size = UDim2.new(1, -10, 0, 60)
         Section.Position = UDim2.new(0, 5, 0, 5)
         Section.BorderSizePixel = 0
 
         SectionTitle.Name = "SectionTitle"
         SectionTitle.Parent = Section
         SectionTitle.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-        SectionTitle.Size = UDim2.new(1, 0, 1, 0)
+        SectionTitle.Size = UDim2.new(1, 0, 0, 25)
         SectionTitle.Font = Enum.Font.GothamBold
         SectionTitle.Text = sectionTitle
         SectionTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -73,7 +73,7 @@ function Library:CreateWindow(title)
             Button.Name = "Button"
             Button.Parent = Section
             Button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-            Button.Size = UDim2.new(1, -10, 0, 25)
+            Button.Size = UDim2.new(1, 0, 0, 25)
             Button.Font = Enum.Font.GothamBold
             Button.Text = text
             Button.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -90,7 +90,7 @@ function Library:CreateWindow(title)
 
             ToggleFrame.Parent = Section
             ToggleFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-            ToggleFrame.Size = UDim2.new(1, -10, 0, 25)
+            ToggleFrame.Size = UDim2.new(1, 0, 0, 25)
 
             ToggleButton.Parent = ToggleFrame
             ToggleButton.Size = UDim2.new(1, 0, 1, 0)
