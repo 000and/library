@@ -21,17 +21,21 @@ function Library:CreateWindow(title)
     MainFrame.BorderSizePixel = 0
     MainFrame.BackgroundTransparency = 0
     MainFrame.ClipsDescendants = true
-    MainFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-    
-    -- Bordas arredondadas
-    local UICorner = Instance.new("UICorner")
-    UICorner.Parent = MainFrame
-    UICorner.CornerRadius = UDim.new(0, 10)
+
+    -- Bordas arredondadas do MainFrame
+    local MainUICorner = Instance.new("UICorner")
+    MainUICorner.CornerRadius = UDim.new(0, 10)
+    MainUICorner.Parent = MainFrame
 
     TitleFrame.Name = "TitleFrame"
     TitleFrame.Parent = MainFrame
     TitleFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     TitleFrame.Size = UDim2.new(1, 0, 0, 30)
+
+    -- Bordas arredondadas do TitleFrame
+    local TitleUICorner = Instance.new("UICorner")
+    TitleUICorner.CornerRadius = UDim.new(0, 8)
+    TitleUICorner.Parent = TitleFrame
 
     Title.Name = "Title"
     Title.Parent = TitleFrame
@@ -54,6 +58,12 @@ function Library:CreateWindow(title)
     CloseButton.Font = Enum.Font.GothamBold
     CloseButton.TextColor3 = Color3.fromRGB(255, 0, 0)
     CloseButton.TextSize = 12
+
+    -- Arredonda o botão de fechar
+    local CloseButtonCorner = Instance.new("UICorner")
+    CloseButtonCorner.CornerRadius = UDim.new(0, 5)
+    CloseButtonCorner.Parent = CloseButton
+
     CloseButton.MouseButton1Click:Connect(function()
         ScreenGui:Destroy()
     end)
@@ -67,30 +77,23 @@ function Library:CreateWindow(title)
     MinimizeButton.Font = Enum.Font.GothamBold
     MinimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     MinimizeButton.TextSize = 12
-    MinimizeButton.Text = "▼"  -- Seta para baixo inicialmente
+    MinimizeButton.Text = "▼" -- Seta inicial
 
-    -- Controla a visibilidade do conteúdo com animação
+    -- Arredonda o botão de minimizar
+    local MinimizeButtonCorner = Instance.new("UICorner")
+    MinimizeButtonCorner.CornerRadius = UDim.new(0, 5)
+    MinimizeButtonCorner.Parent = MinimizeButton
+
     local contentVisible = true
     MinimizeButton.MouseButton1Click:Connect(function()
         contentVisible = not contentVisible
 
         if contentVisible then
             MainFrame:TweenSize(UDim2.new(0, 200, 0, 250), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true)
-            MinimizeButton.Text = "▼"  -- Seta para baixo quando visível
-            for _, item in ipairs(MainFrame:GetChildren()) do
-                if item:IsA("GuiObject") and item ~= TitleFrame and item ~= MinimizeButton and item ~= CloseButton then
-                    item.Visible = true
-                end
-            end
+            MinimizeButton.Text = "▼"
         else
             MainFrame:TweenSize(UDim2.new(0, 200, 0, 30), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true)
-            MinimizeButton.Text = "▲"  -- Seta para cima quando minimizado
-            wait(0.3)  -- Espera a animação terminar
-            for _, item in ipairs(MainFrame:GetChildren()) do
-                if item:IsA("GuiObject") and item ~= TitleFrame and item ~= MinimizeButton and item ~= CloseButton then
-                    item.Visible = false
-                end
-            end
+            MinimizeButton.Text = "▲"
         end
     end)
 
@@ -103,81 +106,50 @@ function Library:CreateWindow(title)
     function Window:CreateSection(sectionTitle)
         local Section = Instance.new("Frame")
         local SectionTitle = Instance.new("TextLabel")
-        local UIListLayout = Instance.new("UIListLayout")
+        local SectionLayout = Instance.new("UIListLayout")
 
         Section.Name = "Section"
         Section.Parent = MainFrame
-        Section.BackgroundColor3 = Color3.fromRGB(50, 50, 50)  -- Cinza escuro
+        Section.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
         Section.Size = UDim2.new(1, -10, 0, 30)
         Section.Position = UDim2.new(0, 5, 0, 5)
-        Section.BorderSizePixel = 0
 
-        -- Bordas arredondadas para as seções
+        -- Bordas arredondadas da seção
         local SectionCorner = Instance.new("UICorner")
-        SectionCorner.Parent = Section
         SectionCorner.CornerRadius = UDim.new(0, 5)
+        SectionCorner.Parent = Section
 
         SectionTitle.Name = "SectionTitle"
         SectionTitle.Parent = Section
-        SectionTitle.BackgroundColor3 = Color3.fromRGB(80, 80, 80)  -- Cinza claro
         SectionTitle.Size = UDim2.new(1, 0, 0, 25)
         SectionTitle.Font = Enum.Font.GothamBold
         SectionTitle.Text = sectionTitle
         SectionTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
         SectionTitle.TextSize = 14
-        SectionTitle.TextXAlignment = Enum.TextXAlignment.Left
 
-        UIListLayout.Parent = Section
-        UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-        UIListLayout.Padding = UDim.new(0, 5)
+        SectionLayout.Parent = Section
+        SectionLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
         local SectionFunctions = {}
 
         function SectionFunctions:CreateButton(text, callback)
             local Button = Instance.new("TextButton")
 
-            Button.Name = "Button"
             Button.Parent = Section
-            Button.BackgroundColor3 = Color3.fromRGB(60, 60, 60)  -- Cinza escuro
-            Button.Size = UDim2.new(1, 0, 0, 20)  -- Menor que antes
+            Button.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+            Button.Size = UDim2.new(1, 0, 0, 20)
             Button.Font = Enum.Font.GothamBold
             Button.Text = text
             Button.TextColor3 = Color3.fromRGB(255, 255, 255)
             Button.TextSize = 12
             Button.MouseButton1Click:Connect(callback)
 
-            -- Bordas arredondadas para os botões
+            -- Bordas arredondadas do botão
             local ButtonCorner = Instance.new("UICorner")
-            ButtonCorner.Parent = Button
             ButtonCorner.CornerRadius = UDim.new(0, 5)
+            ButtonCorner.Parent = Button
 
             return Button
-        end
-
-        function SectionFunctions:CreateToggle(text, callback)
-            local ToggleFrame = Instance.new("Frame")
-            local ToggleButton = Instance.new("TextButton")
-            local isActive = false
-
-            ToggleFrame.Parent = Section
-            ToggleFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-            ToggleFrame.Size = UDim2.new(1, 0, 0, 25)
-
-            ToggleButton.Parent = ToggleFrame
-            ToggleButton.Size = UDim2.new(1, 0, 1, 0)
-            ToggleButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-            ToggleButton.Font = Enum.Font.GothamBold
-            ToggleButton.Text = text
-            ToggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-            ToggleButton.TextSize = 14
-
-            ToggleButton.MouseButton1Click:Connect(function()
-                isActive = not isActive
-                callback(isActive)
-                ToggleButton.BackgroundColor3 = isActive and Color3.fromRGB(0, 170, 0) or Color3.fromRGB(50, 50, 50)
-            end)
-
-            return ToggleButton
         end
 
         return SectionFunctions
