@@ -64,7 +64,6 @@ function Library:CreateWindow(title)
     local contentVisible = true
     MinimizeButton.MouseButton1Click:Connect(function()
         contentVisible = not contentVisible
-        UIListLayout.Enabled = contentVisible
         for _, item in ipairs(MainFrame:GetChildren()) do
             if item ~= TitleFrame then
                 item.Visible = contentVisible
@@ -118,7 +117,6 @@ function Library:CreateWindow(title)
         local sectionContentVisible = true
         SectionMinimizeButton.MouseButton1Click:Connect(function()
             sectionContentVisible = not sectionContentVisible
-            SectionLayout.Enabled = sectionContentVisible
             for _, item in ipairs(Section:GetChildren()) do
                 if item ~= SectionTitle and item ~= SectionMinimizeButton then
                     item.Visible = sectionContentVisible
