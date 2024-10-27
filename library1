@@ -13,8 +13,8 @@ function Library:CreateWindow(title)
     MainFrame.Name = "MainFrame"
     MainFrame.Parent = ScreenGui
     MainFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-    MainFrame.Size = UDim2.new(0, 250, 0, 200)
-    MainFrame.Position = UDim2.new(0.5, -125, 0.5, -100)
+    MainFrame.Size = UDim2.new(0, 200, 0, 50)  -- Tamanho menor
+    MainFrame.Position = UDim2.new(0.5, -100, 0.5, -25)  -- Ajustado para ficar centralizado
     MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
     MainFrame.Draggable = true
     MainFrame.Active = true
@@ -64,10 +64,10 @@ function Library:CreateWindow(title)
         contentVisible = not contentVisible
 
         if contentVisible then
-            MainFrame:TweenSize(UDim2.new(0, 250, 0, 200), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true)
+            MainFrame:TweenSize(UDim2.new(0, 200, 0, 50 + UIListLayout.AbsoluteContentSize.Y), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true)
             MinimizeButton.Text = "▼"
         else
-            MainFrame:TweenSize(UDim2.new(0, 250, 0, 25), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true)
+            MainFrame:TweenSize(UDim2.new(0, 200, 0, 25), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true)
             MinimizeButton.Text = "▲"
         end
     end)
@@ -140,6 +140,8 @@ function Library:CreateWindow(title)
                 Section:TweenSize(UDim2.new(1, -10, 0, 25), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true)
                 SectionMinimizeButton.Text = "▲"
             end
+            -- Atualiza o tamanho da janela com base no conteúdo
+            MainFrame:TweenSize(UDim2.new(0, 200, 0, 50 + UIListLayout.AbsoluteContentSize.Y), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true)
         end)
 
         SectionLayout.Parent = Section
