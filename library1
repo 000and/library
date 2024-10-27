@@ -14,7 +14,7 @@ function Library:CreateWindow(title)
     MainFrame.Parent = ScreenGui
     MainFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
     MainFrame.Size = UDim2.new(0, 200, 0, 50)  -- Tamanho menor
-    MainFrame.Position = UDim2.new(0.5, -100, 0.5, -25)  -- Ajustado para ficar centralizado
+    MainFrame.Position = UDim2.new(0.5, -100, 0.5, -25)  -- Centralizado
     MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
     MainFrame.Draggable = true
     MainFrame.Active = true
@@ -54,10 +54,6 @@ function Library:CreateWindow(title)
     MinimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     MinimizeButton.TextSize = 12
     MinimizeButton.Text = "▼"
-
-    local MinimizeButtonCorner = Instance.new("UICorner")
-    MinimizeButtonCorner.CornerRadius = UDim.new(0, 5)
-    MinimizeButtonCorner.Parent = MinimizeButton
 
     local contentVisible = true
     MinimizeButton.MouseButton1Click:Connect(function()
@@ -125,10 +121,6 @@ function Library:CreateWindow(title)
         SectionMinimizeButton.TextSize = 12
         SectionMinimizeButton.Text = "▼"
 
-        local SectionButtonCorner = Instance.new("UICorner")
-        SectionButtonCorner.CornerRadius = UDim.new(0, 5)
-        SectionButtonCorner.Parent = SectionMinimizeButton
-
         local sectionVisible = true
         SectionMinimizeButton.MouseButton1Click:Connect(function()
             sectionVisible = not sectionVisible
@@ -141,7 +133,13 @@ function Library:CreateWindow(title)
                 SectionMinimizeButton.Text = "▲"
             end
             -- Atualiza o tamanho da janela com base no conteúdo
-            MainFrame:TweenSize(UDim2.new(0, 200, 0, 50 + UIListLayout.AbsoluteContentSize.Y), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true)
+            local totalHeight = 50 + UIListLayout.AbsoluteContentSize.Y
+            for _, sec in pairs(MainFrame:GetChildren()) do
+                if sec.Name == "Section" and sec.Visible then
+                    totalHeight = totalHeight + sec.Size.Y.Offset
+                end
+            end
+            MainFrame:TweenSize(UDim2.new(0, 200, 0, totalHeight), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true)
         end)
 
         SectionLayout.Parent = Section
