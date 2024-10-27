@@ -119,7 +119,7 @@ function Library:CreateWindow(title)
         SectionMinimizeButton.Font = Enum.Font.GothamBold
         SectionMinimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
         SectionMinimizeButton.TextSize = 12
-        SectionMinimizeButton.Text = "▼"
+        SectionMinimizeButton.Text = "▲" -- Setas invertidas
 
         local sectionVisible = true
         SectionMinimizeButton.MouseButton1Click:Connect(function()
@@ -127,11 +127,12 @@ function Library:CreateWindow(title)
 
             if sectionVisible then
                 Section:TweenSize(UDim2.new(1, -10, 0, 100), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true)
-                SectionMinimizeButton.Text = "▼"
+                SectionMinimizeButton.Text = "▲" -- Mostra seta para cima
             else
                 Section:TweenSize(UDim2.new(1, -10, 0, 25), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true)
-                SectionMinimizeButton.Text = "▲"
+                SectionMinimizeButton.Text = "▼" -- Mostra seta para baixo
             end
+            
             -- Atualiza o tamanho da janela com base no conteúdo
             local totalHeight = 50 + UIListLayout.AbsoluteContentSize.Y
             for _, sec in pairs(MainFrame:GetChildren()) do
