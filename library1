@@ -14,8 +14,9 @@ function Library:CreateWindow(title)
     MainFrame.Name = "MainFrame"
     MainFrame.Parent = ScreenGui
     MainFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-    MainFrame.Size = UDim2.new(0, 200, 0, 250)
-    MainFrame.Position = UDim2.new(0.5, -100, 0.5, -150)
+    MainFrame.Size = UDim2.new(0, 300, 0, 300)
+    MainFrame.Position = UDim2.new(0.5, -150, 0.5, -150)
+    MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
     MainFrame.Draggable = true
     MainFrame.Active = true
     MainFrame.BorderSizePixel = 0
@@ -39,11 +40,11 @@ function Library:CreateWindow(title)
     Title.Name = "Title"
     Title.Parent = TitleFrame
     Title.BackgroundTransparency = 1
-    Title.Size = UDim2.new(1, -60, 1, 0)
-    Title.Position = UDim2.new(0, 5, 0, 0)
+    Title.Size = UDim2.new(1, -80, 1, 0)
+    Title.Position = UDim2.new(0, 10, 0, 0)
     Title.Font = Enum.Font.GothamBold
     Title.Text = title
-    Title.TextColor3 = Color3.fromRGB(0, 0, 0)  -- Preto
+    Title.TextColor3 = Color3.fromRGB(0, 0, 0)
     Title.TextSize = 14
     Title.TextXAlignment = Enum.TextXAlignment.Left
 
@@ -86,10 +87,10 @@ function Library:CreateWindow(title)
         contentVisible = not contentVisible
 
         if contentVisible then
-            MainFrame:TweenSize(UDim2.new(0, 200, 0, 250), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true)
+            MainFrame:TweenSize(UDim2.new(0, 300, 0, 300), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true)
             MinimizeButton.Text = "▼"
         else
-            MainFrame:TweenSize(UDim2.new(0, 200, 0, 30), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true)
+            MainFrame:TweenSize(UDim2.new(0, 300, 0, 30), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true)
             MinimizeButton.Text = "▲"
         end
     end)
@@ -118,7 +119,8 @@ function Library:CreateWindow(title)
 
         SectionTitle.Name = "SectionTitle"
         SectionTitle.Parent = Section
-        SectionTitle.Size = UDim2.new(1, -20, 0, 25)
+        SectionTitle.Size = UDim2.new(1, -40, 0, 25)
+        SectionTitle.Position = UDim2.new(0, 10, 0, 0)
         SectionTitle.Font = Enum.Font.GothamBold
         SectionTitle.Text = sectionTitle
         SectionTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -129,7 +131,7 @@ function Library:CreateWindow(title)
         SectionMinimizeButton.Parent = Section
         SectionMinimizeButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
         SectionMinimizeButton.Size = UDim2.new(0, 20, 0, 20)
-        SectionMinimizeButton.Position = UDim2.new(1, -25, 0, 2)
+        SectionMinimizeButton.Position = UDim2.new(1, -30, 0, 2)
         SectionMinimizeButton.Font = Enum.Font.GothamBold
         SectionMinimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
         SectionMinimizeButton.TextSize = 12
@@ -162,7 +164,8 @@ function Library:CreateWindow(title)
 
             Button.Parent = Section
             Button.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-            Button.Size = UDim2.new(1, 0, 0, 20)
+            Button.Size = UDim2.new(1, -10, 0, 20)
+            Button.Position = UDim2.new(0, 5, 0, 5)
             Button.Font = Enum.Font.GothamBold
             Button.Text = text
             Button.TextColor3 = Color3.fromRGB(255, 255, 255)
