@@ -13,57 +13,64 @@ function Library:CreateWindow(title)
     MainFrame.Name = "MainFrame"
     MainFrame.Parent = ScreenGui
     MainFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-    MainFrame.Size = UDim2.new(0, 200, 0, 50)  -- Tamanho menor
-    MainFrame.Position = UDim2.new(0.5, -100, 0.5, -25)  -- Centralizado
-    MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+    MainFrame.Size = UDim2.new(0, 200, 0, 50) -- Iniciar menor
+    MainFrame.Position = UDim2.new(0.5, -100, 0.5, -150)
     MainFrame.Draggable = true
     MainFrame.Active = true
     MainFrame.BorderSizePixel = 0
+    MainFrame.BackgroundTransparency = 0
     MainFrame.ClipsDescendants = true
 
+    -- Bordas arredondadas do MainFrame
     local MainUICorner = Instance.new("UICorner")
-    MainUICorner.CornerRadius = UDim.new(0, 8)
+    MainUICorner.CornerRadius = UDim.new(0, 10)
     MainUICorner.Parent = MainFrame
 
     TitleFrame.Name = "TitleFrame"
     TitleFrame.Parent = MainFrame
     TitleFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-    TitleFrame.Size = UDim2.new(1, 0, 0, 25)
+    TitleFrame.Size = UDim2.new(1, 0, 0, 30)
 
+    -- Bordas arredondadas do TitleFrame
     local TitleUICorner = Instance.new("UICorner")
-    TitleUICorner.CornerRadius = UDim.new(0, 6)
+    TitleUICorner.CornerRadius = UDim.new(0, 8)
     TitleUICorner.Parent = TitleFrame
 
     Title.Name = "Title"
     Title.Parent = TitleFrame
     Title.BackgroundTransparency = 1
-    Title.Size = UDim2.new(1, -30, 1, 0) -- Ajustado para permitir espaço para o botão
-    Title.Position = UDim2.new(0, 10, 0, 0)
+    Title.Size = UDim2.new(1, -60, 1, 0)
+    Title.Position = UDim2.new(0, 5, 0, 0)
     Title.Font = Enum.Font.GothamBold
     Title.Text = title
-    Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-    Title.TextSize = 12
+    Title.TextColor3 = Color3.fromRGB(255, 255, 255) -- Branco
+    Title.TextSize = 14
     Title.TextXAlignment = Enum.TextXAlignment.Left
 
+    -- Botão de Minimizar
     MinimizeButton.Name = "MinimizeButton"
     MinimizeButton.Parent = TitleFrame
     MinimizeButton.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     MinimizeButton.Size = UDim2.new(0, 20, 0, 20)
-    MinimizeButton.Position = UDim2.new(1, -25, 0.5, -10) -- Alinhado à direita
+    MinimizeButton.Position = UDim2.new(1, -30, 0.5, -10)
     MinimizeButton.Font = Enum.Font.GothamBold
     MinimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     MinimizeButton.TextSize = 12
     MinimizeButton.Text = "▼"
 
+    -- Arredonda o botão de minimizar
+    local MinimizeButtonCorner = Instance.new("UICorner")
+    MinimizeButtonCorner.CornerRadius = UDim.new(0, 5)
+    MinimizeButtonCorner.Parent = MinimizeButton
+
     local contentVisible = true
     MinimizeButton.MouseButton1Click:Connect(function()
         contentVisible = not contentVisible
-
         if contentVisible then
-            MainFrame:TweenSize(UDim2.new(0, 200, 0, 50 + UIListLayout.AbsoluteContentSize.Y), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true)
+            MainFrame:TweenSize(UDim2.new(0, 200, 0, 50 + MainFrame.Size.Y.Offset - 30), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true)
             MinimizeButton.Text = "▼"
         else
-            MainFrame:TweenSize(UDim2.new(0, 200, 0, 25), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true)
+            MainFrame:TweenSize(UDim2.new(0, 200, 0, 30), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true)
             MinimizeButton.Text = "▲"
         end
     end)
@@ -76,76 +83,59 @@ function Library:CreateWindow(title)
 
     function Window:CreateSection(sectionTitle)
         local Section = Instance.new("Frame")
-        local SectionTitleFrame = Instance.new("Frame")
         local SectionTitle = Instance.new("TextLabel")
-        local SectionMinimizeButton = Instance.new("TextButton")
         local SectionLayout = Instance.new("UIListLayout")
+        local MinimizeButton = Instance.new("TextButton")
 
         Section.Name = "Section"
         Section.Parent = MainFrame
-        Section.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-        Section.Size = UDim2.new(1, -10, 0, 100)
+        Section.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+        Section.Size = UDim2.new(1, -10, 0, 30)
         Section.Position = UDim2.new(0, 5, 0, 5)
 
+        -- Bordas arredondadas da seção
         local SectionCorner = Instance.new("UICorner")
-        SectionCorner.CornerRadius = UDim.new(0, 8)
+        SectionCorner.CornerRadius = UDim.new(0, 5)
         SectionCorner.Parent = Section
 
-        SectionTitleFrame.Name = "SectionTitleFrame"
-        SectionTitleFrame.Parent = Section
-        SectionTitleFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-        SectionTitleFrame.Size = UDim2.new(1, 0, 0, 25)
-
-        local SectionTitleFrameCorner = Instance.new("UICorner")
-        SectionTitleFrameCorner.CornerRadius = UDim.new(0, 6)
-        SectionTitleFrameCorner.Parent = SectionTitleFrame
-
         SectionTitle.Name = "SectionTitle"
-        SectionTitle.Parent = SectionTitleFrame
-        SectionTitle.BackgroundTransparency = 1
-        SectionTitle.Size = UDim2.new(1, -30, 1, 0) -- Ajustado para permitir espaço para o botão
-        SectionTitle.Position = UDim2.new(0, 10, 0, 0)
+        SectionTitle.Parent = Section
+        SectionTitle.Size = UDim2.new(1, -30, 0, 25)
         SectionTitle.Font = Enum.Font.GothamBold
         SectionTitle.Text = sectionTitle
         SectionTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
-        SectionTitle.TextSize = 12
-        SectionTitle.TextXAlignment = Enum.TextXAlignment.Left
+        SectionTitle.TextSize = 14
 
-        SectionMinimizeButton.Name = "SectionMinimizeButton"
-        SectionMinimizeButton.Parent = SectionTitleFrame
-        SectionMinimizeButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-        SectionMinimizeButton.Size = UDim2.new(0, 20, 0, 20)
-        SectionMinimizeButton.Position = UDim2.new(1, -25, 0.5, -10) -- Alinhado à direita
-        SectionMinimizeButton.Font = Enum.Font.GothamBold
-        SectionMinimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-        SectionMinimizeButton.TextSize = 12
-        SectionMinimizeButton.Text = "▲" -- Setas invertidas
+        -- Botão de Minimizar para a Seção
+        MinimizeButton.Name = "MinimizeButton"
+        MinimizeButton.Parent = Section
+        MinimizeButton.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+        MinimizeButton.Size = UDim2.new(0, 20, 0, 20)
+        MinimizeButton.Position = UDim2.new(1, -30, 0.5, -10)
+        MinimizeButton.Font = Enum.Font.GothamBold
+        MinimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+        MinimizeButton.TextSize = 12
+        MinimizeButton.Text = "▼"
+
+        -- Arredonda o botão de minimizar
+        local MinimizeButtonCorner = Instance.new("UICorner")
+        MinimizeButtonCorner.CornerRadius = UDim.new(0, 5)
+        MinimizeButtonCorner.Parent = MinimizeButton
 
         local sectionVisible = true
-        SectionMinimizeButton.MouseButton1Click:Connect(function()
+        MinimizeButton.MouseButton1Click:Connect(function()
             sectionVisible = not sectionVisible
-
             if sectionVisible then
-                Section:TweenSize(UDim2.new(1, -10, 0, 100), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true)
-                SectionMinimizeButton.Text = "▲" -- Mostra seta para cima
+                Section:TweenSize(UDim2.new(1, -10, 0, 30), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true)
+                MinimizeButton.Text = "▼"
             else
-                Section:TweenSize(UDim2.new(1, -10, 0, 25), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true)
-                SectionMinimizeButton.Text = "▼" -- Mostra seta para baixo
+                Section:TweenSize(UDim2.new(1, -10, 0, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true)
+                MinimizeButton.Text = "▲"
             end
-            
-            -- Atualiza o tamanho da janela com base no conteúdo
-            local totalHeight = 50 + UIListLayout.AbsoluteContentSize.Y
-            for _, sec in pairs(MainFrame:GetChildren()) do
-                if sec.Name == "Section" and sec.Visible then
-                    totalHeight = totalHeight + sec.Size.Y.Offset
-                end
-            end
-            MainFrame:TweenSize(UDim2.new(0, 200, 0, totalHeight), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.3, true)
         end)
 
         SectionLayout.Parent = Section
         SectionLayout.SortOrder = Enum.SortOrder.LayoutOrder
-        SectionLayout.Padding = UDim.new(0, 5)
 
         local SectionFunctions = {}
 
@@ -154,14 +144,14 @@ function Library:CreateWindow(title)
 
             Button.Parent = Section
             Button.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-            Button.Size = UDim2.new(1, -10, 0, 20)
-            Button.Position = UDim2.new(0, 5, 0, 5)
+            Button.Size = UDim2.new(1, 0, 0, 20)
             Button.Font = Enum.Font.GothamBold
             Button.Text = text
             Button.TextColor3 = Color3.fromRGB(255, 255, 255)
             Button.TextSize = 12
             Button.MouseButton1Click:Connect(callback)
 
+            -- Bordas arredondadas do botão
             local ButtonCorner = Instance.new("UICorner")
             ButtonCorner.CornerRadius = UDim.new(0, 5)
             ButtonCorner.Parent = Button
