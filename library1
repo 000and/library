@@ -1,7 +1,7 @@
 --https://v3rmillion.net/showthread.php?tid=1182163
 local library = {}
 library.Flags = {}
-library.DefaultColor = Color3.fromRGB(200, 0, 0)
+library.DefaultColor = Color3.fromRGB(180, 150, 220)
 
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
